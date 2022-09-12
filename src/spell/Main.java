@@ -1,6 +1,7 @@
 package spell;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * A simple main class for running the spelling corrector. This class is not
@@ -16,18 +17,16 @@ public class Main {
 		
 		String dictionaryFileName = args[0];
 		String inputWord = args[1];
-		
-		//
+
         //Create an instance of your corrector here
-        //
-		ISpellCorrector corrector = null;
+		ISpellCorrector corrector = new SpellCorrector();
 		
 		corrector.useDictionary(dictionaryFileName);
 		String suggestion = corrector.suggestSimilarWord(inputWord);
 		if (suggestion == null) {
 		    suggestion = "No similar word found";
 		}
-		
+
 		System.out.println("Suggestion is: " + suggestion);
 	}
 
