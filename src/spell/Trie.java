@@ -1,27 +1,33 @@
 package spell;
 
 public class Trie implements ITrie {
-    private Node root;
-    private int wordCount;
-    private int nodeCount;
+    private Node root = new Node();
+    private int wordCount = 0; // counts how many unique words there are total
+    private int nodeCount = 1; // counts how many nodes there are total
 
     @Override
     public void add(String word) {
-        int index;
+        int index = 0;
         INode current = root;
         for (int i = 0; i < word.length(); ++i) {
             index = word.charAt(i) - 'a';
             if (current.getChildren()[index] == null) {
                 current.getChildren()[index] = new Node();
+                // can increment node count
+                ++nodeCount;
             }
             current = current.getChildren()[index];
         }
+        // if the current node is 0 then increment word count
         current.incrementValue();
+        if (current.getValue() == 1) {
+            ++wordCount;
+        }
     }
 
     @Override
     public INode find(String word) {
-        int index;
+        int index = 0;
         INode current = root;
         for (int i = 0; i < word.length(); ++i) {
             index = word.charAt(i) - 'a';
@@ -30,7 +36,12 @@ public class Trie implements ITrie {
             }
             current = current.getChildren()[index];
         }
-        return current;
+        if (current.getValue() >= 1) {
+            return current;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
@@ -53,7 +64,6 @@ public class Trie implements ITrie {
 
     private void toString_Helper(INode n, StringBuilder currWord, StringBuilder output) {
         if (n.getValue() > 0) {
-            // append the node's word to the output
             output.append(currWord.toString());
             output.append("\n");
         }
@@ -91,17 +101,43 @@ public class Trie implements ITrie {
             // do they have the same count
             // do they have non-null children in exactly the same indexes
         // recurse on the children and compare the children subtrees
-        return equals_Helper(n1, n2);
+        if (n1 == null && n2 != null) {
+            return false;
+        }
+        else if (n1 != null && n2 == null) {
+            return false;
+        }
+        else if (n1 != null && n2 != null) {
+            if (n1.getValue() != n2.getValue()) {
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
+        for (int i = 0; i < n1.getChildren().length; ++i) {
+            Node child1 = (Node)n1.getChildren()[i];
+            Node child2 = (Node)n2.getChildren()[i];
+            if (equals_Helper(child1, child2) == false) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        // rewrite this to make it return a better number
-        return wordCount * nodeCount;
-        // combine the following values in some way
-            // wordCount
-            // nodeCount
-            // the index of each of the root node's non-null children
+        int index = 0;
+        Node n = this.root;
+        if (this != null) {
+            for (int i = 0; i < n.getChildren().length; ++i) {
+                Node child = (Node) n.getChildren()[i];
+                if (child != null) {
+                    index += i;
+                }
+            }
+        }
+        return wordCount * nodeCount * index;
     }
 
 

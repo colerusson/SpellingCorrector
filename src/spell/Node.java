@@ -1,7 +1,7 @@
 package spell;
 
 public class Node implements INode {
-    private int count;
+    private int count; // how many of each word there are
     private INode[] children = new INode[26];
 
     @Override
