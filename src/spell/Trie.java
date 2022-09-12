@@ -7,22 +7,40 @@ public class Trie implements ITrie {
 
     @Override
     public void add(String word) {
-
+        int index;
+        INode current = root;
+        for (int i = 0; i < word.length(); ++i) {
+            index = word.charAt(i) - 'a';
+            if (current.getChildren()[index] == null) {
+                current.getChildren()[index] = new Node();
+            }
+            current = current.getChildren()[index];
+        }
+        current.incrementValue();
     }
 
     @Override
     public INode find(String word) {
-        return null;
+        int index;
+        INode current = root;
+        for (int i = 0; i < word.length(); ++i) {
+            index = word.charAt(i) - 'a';
+            if (current.getChildren()[index] == null) {
+                return null;
+            }
+            current = current.getChildren()[index];
+        }
+        return current;
     }
 
     @Override
     public int getWordCount() {
-        return 0;
+        return this.wordCount;
     }
 
     @Override
     public int getNodeCount() {
-        return 0;
+        return this.nodeCount;
     }
 
     @Override
@@ -85,4 +103,6 @@ public class Trie implements ITrie {
             // nodeCount
             // the index of each of the root node's non-null children
     }
+
+
 }

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class SpellCorrector implements ISpellCorrector {
-    public Trie trie;
+    public Trie trie = new Trie();
     @Override
     public void useDictionary(String dictionaryFileName) throws IOException {
         Scanner scan = new Scanner(dictionaryFileName);
         while (scan.hasNext()) {
             String line = scan.next();
-            // Trie.add(line);
+            trie.add(line);
         }
     }
 
