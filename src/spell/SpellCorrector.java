@@ -6,8 +6,8 @@ import java.util.*;
 
 public class SpellCorrector implements ISpellCorrector {
     public Trie trie = new Trie();
-    Set<String> editSetOne = new HashSet<String>();
-    Set<String> editSetTwo = new HashSet<String>();
+    Set<String> editSetOne = new HashSet<>();
+    Set<String> editSetTwo = new HashSet<>();
 
     @Override
     public void useDictionary(String dictionaryFileName) throws IOException {
@@ -57,7 +57,7 @@ public class SpellCorrector implements ISpellCorrector {
         }
         else {
             editSetOne.clear();
-            Set<String> copyEditSet = new HashSet<String>(editSetTwo);
+            Set<String> copyEditSet = new HashSet<>(editSetTwo);
             for (String newWord : copyEditSet) {
                 doubleDistance(newWord);
             }
