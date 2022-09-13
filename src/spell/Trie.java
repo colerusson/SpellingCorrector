@@ -101,26 +101,15 @@ public class Trie implements ITrie {
             // do they have the same count
             // do they have non-null children in exactly the same indexes
         // recurse on the children and compare the children subtrees
-        if (n1 == null && n2 != null) {
-            return false;
-        }
-        else if (n1 != null && n2 == null) {
-            return false;
-        }
+        if ((n1 == null && n2 != null) || (n1 != null && n2 == null)) return false;
         else if (n1 != null && n2 != null) {
-            if (n1.getValue() != n2.getValue()) {
-                return false;
-            }
+            if (n1.getValue() != n2.getValue()) return false;
         }
-        else {
-            return true;
-        }
+        else return true;
         for (int i = 0; i < n1.getChildren().length; ++i) {
             Node child1 = (Node)n1.getChildren()[i];
             Node child2 = (Node)n2.getChildren()[i];
-            if (equals_Helper(child1, child2) == false) {
-                return false;
-            }
+            if (equals_Helper(child1, child2) == false) return false;
         }
         return true;
     }
